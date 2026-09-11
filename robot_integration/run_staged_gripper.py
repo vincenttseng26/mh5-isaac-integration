@@ -76,7 +76,7 @@ def main():
     parser.add_argument("--report", default=DEFAULT_REPORT)
     parser.add_argument("--profile", default=DEFAULT_PROFILE)
     parser.add_argument("--max-report-age-s", type=float, default=300.0)
-    parser.add_argument("--force-tenth-n", type=int, default=60,
+    parser.add_argument("--force-tenth-n", type=int, default=80,
                         help="closing/opening force in 0.1 N; allowed 30..120")
     parser.add_argument("--confirm", action="store_true")
     args = parser.parse_args()
