@@ -1,0 +1,147 @@
+{
+  "session_name": "session_20260908T064022Z_a2_extrinsic_stability",
+  "disclaimer": "This session is a FIXED-SCENE EXTRINSIC POSE STABILITY check only (board pose in the camera frame, estimated per-frame from ChArUco detection + the camera's own factory intrinsics). It does NOT involve a robot pose, is NOT a hand-eye calibration, and must not be reported or reused as one.",
+  "not_hand_eye_calibration": true,
+  "metric_status": "metric-valid",
+  "metric_confirmation": {
+    "confirmed": true,
+    "confirmed_by": "user physical measurement (ruler/caliper against the printed A2 board)",
+    "confirmed_at": "2026-09-08T14:00:00+08:00",
+    "method": "User physically measured the printed A2 ChArUco board (100 mm scale bar / 45 mm squares) and reported the print scale is correct (100% actual size, not fit-to-page).",
+    "specs_confirmed": {
+      "squares_x": 10,
+      "squares_y": 8,
+      "square_length_mm": 45.0,
+      "marker_length_mm": 32.0,
+      "dictionary": "DICT_5X5_100",
+      "legacy_pattern": false
+    },
+    "note": "This confirms the *physical print scale* of the board (metric geometry is now trustworthy for pose estimation). It does NOT by itself constitute a camera calibration or a hand-eye calibration -- those are separate, still-pending steps. Historical probe artifacts under calib_data/probe/ and calib_data/cyc_probe/ were captured before this confirmation and intentionally still say metric-unconfirmed in their own summary JSON; they are left as-is (not overwritten) as a dated audit trail. Any *new* session created after this confirmation should read this field programmatically rather than re-stating a hardcoded status string."
+  },
+  "board_config": {
+    "config_path": "/home/cyc639/mh5_zed_calibration/configs/board_config_a2.yaml",
+    "name": "charuco_a2_10x8_45mm",
+    "squares_x": 10,
+    "squares_y": 8,
+    "square_length_m": 0.045,
+    "marker_length_m": 0.032,
+    "dictionary": "DICT_5X5_100",
+    "legacy_pattern": false
+  },
+  "camera": {
+    "camera_model": "ZED",
+    "serial_number": 24180,
+    "resolution": {
+      "width": 1280,
+      "height": 720
+    },
+    "fps": 30.0,
+    "source": "ZED SDK factory calibration, read-only via get_camera_information() at the actually-negotiated 1280x720 mode -- not guessed, not another resolution's values",
+    "read_at_utc": "2026-09-08T06:40:23Z",
+    "fx": 688.324462890625,
+    "fy": 688.324462890625,
+    "cx": 602.7785034179688,
+    "cy": 350.0331726074219,
+    "dist_coeffs": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "camera_matrix_3x3": [
+      [
+        688.324462890625,
+        0.0,
+        602.7785034179688
+      ],
+      [
+        0.0,
+        688.324462890625,
+        350.0331726074219
+      ],
+      [
+        0.0,
+        0.0,
+        1.0
+      ]
+    ]
+  },
+  "capture_params": {
+    "num_frames_requested": 30,
+    "frame_interval_s": 0.3
+  },
+  "results": {
+    "frames_captured": 30,
+    "frames_attempted_grabs": 30,
+    "valid_frames": 29,
+    "valid_frame_rate": 0.9666666666666667,
+    "corners_stats_all_frames": {
+      "mean": 51.833333333333336,
+      "std": 9.889669132764531,
+      "max": 61.0,
+      "n": 30
+    },
+    "theoretical_max_charuco_corners": 63,
+    "translation_jitter": {
+      "mean_translation_m": [
+        0.2667259954166466,
+        0.0910124092360348,
+        1.21682864679355
+      ],
+      "centroid_deviation_mm": {
+        "mean": 0.4004395777498683,
+        "std": 0.463704346562512,
+        "max": 2.394362713049436,
+        "n": 29
+      },
+      "per_axis_std_mm": {
+        "x": 0.046263147921956994,
+        "y": 0.03633892604703955,
+        "z": 0.6098465217147327
+      }
+    },
+    "rotation_jitter": {
+      "mean_quaternion_wxyz": [
+        0.009504453119637811,
+        0.003999627191006682,
+        0.007089690596320982,
+        -0.9999216992547357
+      ],
+      "angular_deviation_deg": {
+        "mean": 0.1575933110189733,
+        "std": 0.17030835036069586,
+        "max": 0.7464714147963568,
+        "n": 29
+      }
+    },
+    "reprojection_stats_px": {
+      "mean": 0.22759186652483168,
+      "std": 0.0817006482816678,
+      "max": 0.42155528983352963,
+      "n": 29
+    },
+    "quality_gate": {
+      "pass": true,
+      "reasons": [],
+      "thresholds": {
+        "min_valid_frame_rate": 0.8,
+        "max_translation_jitter_mm": 5.0,
+        "max_rotation_jitter_deg": 1.0,
+        "max_reprojection_rms_px": 1.0,
+        "min_markers": 10,
+        "min_corners": 15
+      }
+    }
+  },
+  "transform_convention": {
+    "T_camera_board": "X_camera_h = T_camera_board @ X_board_h -- board frame expressed in the camera frame.",
+    "T_board_camera": "X_board_h = T_board_camera @ X_camera_h -- inverse of T_camera_board.",
+    "translation_units": "meters",
+    "quaternion_order": "[w, x, y, z]",
+    "rotation_axis_convention": "camera: OpenCV (+X right, +Y down, +Z forward). board: top-left outer corner origin, +X right, +Y down, +Z toward printed face."
+  },
+  "next_steps": [
+    "此次結果為固定場景外參姿態穩定度合格。下一步建議：在多個不同板子角度/距離/相機視角下重複本腳本(每個姿態仍是靜態、read-only)，累積多組穩定度數據，確認在預期工作空間內都達標，再考慮進入hand-eye 資料收集規劃。這一步本身仍不連 FS100、不送機器人指令 -- 是否/何時連接機器人由使用者另行決定。"
+  ]
+}

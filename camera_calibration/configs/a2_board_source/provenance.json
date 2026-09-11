@@ -1,0 +1,73 @@
+{
+  "source_of_truth": "/home/vincent/Desktop/mh5_isaaclab_reach_lift_v0/charuco_a2_board_v2/mh5_zed_charuco_a2_board_v1.svg",
+  "source_manifest": "/home/vincent/Desktop/mh5_isaaclab_reach_lift_v0/charuco_a2_board_v2/manifest.json",
+  "copied_into": "camera_calibration/configs/a2_board_source/ (this directory)",
+  "verified_at": "2026-09-08T00:00:00+08:00",
+  "verification": {
+    "method": "sha256sum on both the Desktop source file and the copy placed in this repo; also full-content diff of manifest.json",
+    "sha256_svg_expected_per_manifest": "fe93ffc86d0113f5c8e43c7d39cc42e2cb17ee0011b36310876899e45a5deef7",
+    "sha256_svg_source_file": "fe93ffc86d0113f5c8e43c7d39cc42e2cb17ee0011b36310876899e45a5deef7",
+    "sha256_svg_copied_file": "fe93ffc86d0113f5c8e43c7d39cc42e2cb17ee0011b36310876899e45a5deef7",
+    "match": true,
+    "manifest_diff": "identical (byte-for-byte)"
+  },
+  "manifest_snapshot": {
+    "board_frame": "origin top-left outer corner; +X right; +Y down; +Z toward printed face",
+    "board_type": "ChArUco",
+    "dictionary": "DICT_5X5_100",
+    "files": {
+      "mh5_zed_charuco_a2_board_v1.svg": {
+        "bytes": 219276,
+        "sha256": "fe93ffc86d0113f5c8e43c7d39cc42e2cb17ee0011b36310876899e45a5deef7"
+      }
+    },
+    "marker_length_mm": 32.0,
+    "outer_size_mm": [450.0, 360.0],
+    "page_orientation": "A2 landscape",
+    "page_size_mm": [594.0, 420.0],
+    "print": "100% actual size; disable fit-to-page; verify 100 mm scale bar",
+    "schema_version": 1,
+    "square_length_mm": 45.0,
+    "squares_x": 10,
+    "squares_y": 8
+  },
+  "legacy_pattern_determination": {
+    "why_it_matters": "OpenCV >=4.7 changed the internal black/white square arrangement of CharucoBoard vs. the legacy (<=4.6) CharucoBoard_create pattern. Both the local machine (cv2 4.14.0) and cyc-server (cv2 4.13.0) only expose the new CharucoBoard class (no CharucoBoard_create), so board.setLegacyPattern(bool) must be set correctly or ChArUco corner interpolation silently maps corners to the wrong physical positions even though marker detection still 'works'.",
+    "method": "The source SVG embeds its ChArUco pattern as a raster <image> (not vector squares) at 4500x3600 px for the 450x360mm outer board area (10 px/mm). Extracted that embedded PNG, then rendered two candidate boards locally via camera_calibration.compat.make_charuco_board() with squares_x=10, squares_y=8, square_length_m=0.045, marker_length_m=0.032, dictionary=DICT_5X5_100, at the identical 4500x3600 px canvas / border_bits=1 / margin_size=0, once with legacy_pattern=True and once with legacy_pattern=False, then pixel-diffed each against the embedded reference image.",
+    "results": {
+      "legacy_pattern_true": {
+        "diff_pixels": 10047310,
+        "diff_fraction": 0.620204,
+        "verdict": "rejected - majority of pixels differ, indicating a structurally different square/marker arrangement"
+      },
+      "legacy_pattern_false": {
+        "diff_pixels": 52826,
+        "diff_fraction": 0.003261,
+        "connected_components": 252,
+        "median_component_area_px": 92,
+        "largest_component_area_px": 1450,
+        "full_square_area_px_for_scale": 202500,
+        "verdict": "accepted - 99.67% pixel match; residual differences are small anti-aliasing blobs at marker/module edges (median 92px, max 1450px), nowhere near the ~202500px of a full 45mm square, so there is no structural mismatch"
+      }
+    },
+    "conclusion": "legacy_pattern: false matches the printed SVG. This was cross-checked (not assumed) against actual offline detection on cyc-server's captured frames (see calib_data/probe/a2_probe_summary.json on both this repo and cyc-server) before being adopted in configs/board_config_a2.yaml.",
+    "not_guessed": "This value was derived from pixel-level comparison against the authoritative SVG raster and from real-frame ChArUco corner interpolation counts, not assumed from either the 5x7 board's existing legacy_pattern=true default or from general OpenCV-version heuristics."
+  },
+  "metric_status": "metric-valid",
+  "metric_status_note": "HISTORICAL (superseded by metric_confirmation below, kept verbatim for the audit trail): square_length_mm=45.0 and marker_length_mm=32.0 are the *design* values from manifest.json. Nobody has physically measured the printed board's 100 mm scale bar or a 45 mm square with a ruler to confirm the printer reproduced it at exactly 100% scale. Treat every downstream metric pose/hand-eye result from this board as unconfirmed until a user performs and reports that physical measurement.",
+  "metric_confirmation": {
+    "confirmed": true,
+    "confirmed_by": "user physical measurement (ruler/caliper against the printed A2 board)",
+    "confirmed_at": "2026-09-08T14:00:00+08:00",
+    "method": "User physically measured the printed A2 ChArUco board (100 mm scale bar / 45 mm squares) and reported the print scale is correct (100% actual size, not fit-to-page).",
+    "specs_confirmed": {
+      "squares_x": 10,
+      "squares_y": 8,
+      "square_length_mm": 45.0,
+      "marker_length_mm": 32.0,
+      "dictionary": "DICT_5X5_100",
+      "legacy_pattern": false
+    },
+    "note": "This confirms the *physical print scale* of the board (metric geometry is now trustworthy for pose estimation). It does NOT by itself constitute a camera calibration or a hand-eye calibration -- those are separate, still-pending steps. Historical probe artifacts under calib_data/probe/ and calib_data/cyc_probe/ were captured before this confirmation and intentionally still say metric-unconfirmed in their own summary JSON; they are left as-is (not overwritten) as a dated audit trail. Any *new* session created after this confirmation should read this field programmatically rather than re-stating a hardcoded status string."
+  }
+}

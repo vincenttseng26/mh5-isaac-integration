@@ -1,0 +1,17 @@
+__pycache__/
+.pytest_cache/
+*.pyc
+*.log
+*.jsonl
+camera_calibration/.venv/
+camera_calibration/.pytest_cache/
+archive/
+zed_live_gui_*/
+shadow_logs/
+*.bak-*
+*.pre_stale_*
+
+# Local calibration/detection captures (keep templates and documented defaults)
+zed_object_detection_latest.json
+camera_calibration/*Results.json
+
