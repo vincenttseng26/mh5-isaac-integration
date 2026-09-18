@@ -1,0 +1,62 @@
+{
+  "board_config": {
+    "config_path": "../configs/board_config_a2.yaml",
+    "name": "charuco_a2_10x8_45mm",
+    "squares_x": 10,
+    "squares_y": 8,
+    "square_length_m": 0.045,
+    "marker_length_m": 0.032,
+    "dictionary": "DICT_5X5_100",
+    "legacy_pattern": false,
+    "theoretical_max_charuco_corners": 63
+  },
+  "provenance_file": "/home/vincent/Documents/resume/camera_calibration/configs/a2_board_source/provenance.json",
+  "capture_note": "frames were already captured beforehand; this run performs offline detection only, no new frames captured, no camera settings touched",
+  "metric_status": "metric-unconfirmed",
+  "metric_status_note": "square_length_mm/marker_length_mm are design values from the source manifest.json. Not valid for metric pose/hand-eye until a user physically measures the printed 100mm scale bar or a 45mm square and confirms 100% print scale.",
+  "frames": [
+    {
+      "image": "../calib_data/cyc_probe/frame_01.png",
+      "num_markers": 12,
+      "marker_ids": [
+        14,
+        20,
+        19,
+        24,
+        7,
+        21,
+        10,
+        12,
+        15,
+        17,
+        32,
+        5
+      ],
+      "num_charuco_corners": 8,
+      "charuco_ids": [
+        9,
+        13,
+        18,
+        22,
+        26,
+        27,
+        30,
+        35
+      ],
+      "theoretical_max_charuco_corners": 63,
+      "overlay_path": "../calib_data/cyc_probe/frame_01_a2_overlay.png",
+      "legacy_pattern_cross_check": {
+        "configured_legacy_pattern": false,
+        "configured_num_charuco_corners": 8,
+        "alternate_legacy_pattern": true,
+        "alternate_num_charuco_corners": 0
+      },
+      "wrong_dictionary_control": {
+        "dictionary": "DICT_6X6_250",
+        "num_markers": 0,
+        "num_charuco_corners": 0,
+        "rejected_as_expected": true
+      }
+    }
+  ]
+}

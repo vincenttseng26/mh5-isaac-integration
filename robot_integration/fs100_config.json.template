@@ -1,0 +1,12 @@
+{
+  "enabled": false,
+  "read_only": true,
+  "network": {
+    "ip_address": "",
+    "port": null
+  },
+  "options": {
+    "protocol": null,
+    "timeout_ms": 1000
+  }
+}
